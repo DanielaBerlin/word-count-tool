@@ -14,11 +14,10 @@ function characterCount() {
 
 function wordCounter(e) {
     let words = input.value.match(/\b[-?(\w+)?]+\b/gi);
-    let wordsLeft = 10;
 
     if (words) {
     word.innerHTML = words.length;
-    wordLimit.innerHTML = wordsLeft - words.length;
+    wordLimit.innerHTML = WORD_LIMIT - words.length;
     } else {
         word.innerHTML = 0;
     }
@@ -29,11 +28,24 @@ function wordCounter(e) {
         if (words) {
             if (words.length > WORD_LIMIT - 1 && e.code !== "Backspace") {
                 e.preventDefault();
-                console.log("Word limit reached");
+                // console.log("Word limit reached");
             }
         }
     });
+
     //Reading time based on 225 words/min
-    
-   
+    if (words) {
+        let seconds = Math.floor((words.length * 60) / 225);
+        if (seconds > 59) {
+            let minutes = Math.floor(seconds / 60);
+            seconds = seconds - minutes * 60;
+            readingTime.innerHTML = minutes + "m" + seconds + "s";
+        } else {
+            readingTime.innerHTML = seconds + 's';
+        }
+    } else {
+        readingTime.innerHTML = seconds + '0s';
+    }
 }
+   
+
